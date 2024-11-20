@@ -20,15 +20,24 @@ function generatePassword() {
   var password = '';
 
   var length = prompt('Select your password length. It must be between 8 and 128 characters.', 8);
-  // ensures length is within correct range
-  if(length < 8 || length > 128){
-    length = Math.floor(Math.random() * (128 - 8 - 1) + 8);
-    alert('Invalid selection. Your password length will be ' + length);
-  }
   var lowerCase = confirm('Will this password include lowercase letters?', true);
   var upperCase = confirm('Will this password include uppercase letter?', true);
   var numeric = confirm('Will this password include numerics?', true);
   var special = confirm('Will this password include special characters?', true);
+  
+  // if length is not within range, random length will be selected
+  if(length < 8 || length > 128){
+    length = Math.floor(Math.random() * (128 - 8 - 1) + 8);
+    alert('Invalid selection. Your password length will be ' + length);
+  }
+  // if no criteria are selected, random criteria will be selected 
+  if(!lowerCase && !upperCase && !numeric && !special){
+    alert('Invalid selection. Criteria will be selected at random');
+    lowerCase =  Boolean(Math.random() < 0.5);
+    upperCase = Boolean(Math.random() < 0.5);
+    numeric = Boolean(Math.random() < 0.5);
+    special = Boolean(Math.random() < 0.5);
+  }
 
   do {
     if(lowerCase){
@@ -62,8 +71,6 @@ function generatePassword() {
   } while (password.length < length);
 
   var newPass = randomize(password);
-  console.log(password)
-  console.log('password: ' + newPass + ' password length: ' + newPass.length);
   return newPass
 }
 
