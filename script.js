@@ -18,6 +18,7 @@ function generatePassword() {
   var specialChar = ' !"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~';
 
   var password = '';
+  var criteria = 0;
 
   var length = prompt('Select your password length. It must be between 8 and 128 characters.', 8);
   var lowerCase = confirm('Will this password include lowercase letters?', true);
@@ -26,28 +27,28 @@ function generatePassword() {
   var special = confirm('Will this password include special characters?', true);
   
   // if length is not within range, random length will be selected
-  if(length < 8 || length > 128){
+  if (length < 8 || length > 128) {
     length = Math.floor(Math.random() * (128 - 8 - 1) + 8);
     alert('Invalid selection. Your password length will be ' + length);
   }
   // if no criteria are selected, random criteria will be selected 
-  if(!lowerCase && !upperCase && !numeric && !special){
+  if (!lowerCase && !upperCase && !numeric && !special) {
     alert('Invalid selection. Criteria will be selected at random');
-    lowerCase =  Boolean(Math.random() < 0.5);
+    lowerCase = Boolean(Math.random() < 0.5);
     upperCase = Boolean(Math.random() < 0.5);
     numeric = Boolean(Math.random() < 0.5);
     special = Boolean(Math.random() < 0.5);
   }
-
+ 
   do {
-    if(lowerCase){
+    if (lowerCase) {
       password += letterChar.charAt(Math.floor(Math.random() * (letterChar.length - 0) - 0 + 1) + 0);
-      if(password.length == length) {
+      if (password.length == length) {
         console.log('break')
         break;
       }
     }
-    if(upperCase){
+    if (upperCase) {
       password += letterChar.charAt(Math.floor(Math.random() * (letterChar.length - 0) - 0 + 1) + 0).toUpperCase();
       if(password.length == length) {
         console.log('break')
