@@ -10,69 +10,73 @@ function writePassword() {
 
 }
 
-function generatePassword(){
+function generatePassword() {
   // characters
+
   var letterChar = 'abcdefghijklmnopqrstuvwxyz';
   var numChar = '123456789';
   var specialChar = ' !"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~';
 
   var password = '';
-  
-  var length = prompt('Select your password length. It must be between 8 and 128 characters.', 8);
-  var lowerCase = prompt('Will this password include lowercase letters?', true);
-  if(lowerCase){
-    // selects random number between the length selected and 8 (min amount allowed)
-    // minus 3 to make sure there's enough left for upper, numeric, and special 
-   var randomNum = Math.floor(Math.random() *((length - 3) - 8 + 1)) + 8;
-   var i = 0;
-    do{
-      i = i + 1;
-      password += letterChar.charAt(Math.floor(Math.random()*(25 - 0) - 0 + 1) + 0);
-      } while (i < randomNum);
-    length = length - randomNum;
-    console.log(`lowercase: ${password}`)
-  }
-  var upperCase = prompt('Will this password include uppercase letter?', true);
-  if(upperCase){
-   var randomNum = Math.floor(Math.random() *((length - 2) - 8 + 1)) + 8;
-   var i = 0;
-    do{
-      i = i + 1;
-      password += letterChar.charAt(Math.floor(Math.random()*(25 - 0) - 0 + 1) + 0).toUpperCase();
-      } while (i < randomNum);
-      length = length - randomNum;
-      console.log(`uppercase: ${password}`)
-  }
-  var numeric = prompt('Will this password include numerics?', true);
-  if(numeric){
-    var randomNum = Math.floor(Math.random() *((length - 1) - 8 + 1)) + 8;
-    var i = 0;
-     do{
-       i = i + 1;
-       password += numChar.charAt(Math.floor(Math.random()*(8 - 0) - 0 + 1) + 0);
-       } while (i < randomNum);
-       length = length - randomNum;
-       console.log(`numeric: ${password}`)
-   }
-  var special = prompt('Will this password include special characters?', true);
-  if(upperCase){
-    var i = 0;
-     do{
-       i = i + 1;
-       password += specialChar.charAt(Math.floor(Math.random()*(32 - 0) - 0 + 1) + 0).toUpperCase();
-       } while (i < length);
-   }
-   console.log(`special: ${password}`)
-   
-   var array = password.split(''); 
 
-   for (var i = array.length - 1; i > 0; i--) { 
-      var j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; 
+  var length = prompt('Select your password length. It must be between 8 and 128 characters.', 8);
+  // ensures length is within correct range
+  if(length < 8 || length > 128){
+    length = Math.floor(Math.random() * (128 - 8 - 1) + 8);
+    alert('Invalid selection. Your password length will be ' + length);
+  }
+  var lowerCase = confirm('Will this password include lowercase letters?', true);
+  var upperCase = confirm('Will this password include uppercase letter?', true);
+  var numeric = confirm('Will this password include numerics?', true);
+  var special = confirm('Will this password include special characters?', true);
+
+  do {
+    if(lowerCase){
+      password += letterChar.charAt(Math.floor(Math.random() * (letterChar.length - 0) - 0 + 1) + 0);
+      if(password.length == length) {
+        console.log('break')
+        break;
+      }
     }
-    password = array.join(''); 
-    
-  console.log(password);
-  return password
+    if(upperCase){
+      password += letterChar.charAt(Math.floor(Math.random() * (letterChar.length - 0) - 0 + 1) + 0).toUpperCase();
+      if(password.length == length) {
+        console.log('break')
+        break;
+      }
+    }
+    if(numeric){
+      password += numChar.charAt(Math.floor(Math.random() * (numChar.length - 0) - 0 + 1) + 0);
+      if(password.length == length) {
+        console.log('break')
+        break;
+      }
+    }
+    if(special){
+      password += specialChar.charAt(Math.floor(Math.random() * (specialChar.length - 0) - 0 + 1) + 0);
+      if(password.length == length) {
+        console.log('break')
+        break;
+      }
+    }
+  } while (password.length < length);
+
+  var newPass = randomize(password);
+  console.log(password)
+  console.log('password: ' + newPass + ' password length: ' + newPass.length);
+  return newPass
+}
+
+function randomize(string){
+  var word = string.split('');
+
+  for(var i = word.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = word[i];
+    word[i] = word[j];
+    word[j] = temp;
+}
+return word.join("");
 }
 
 // Add event listener to generate button
